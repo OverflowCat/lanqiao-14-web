@@ -8,7 +8,6 @@
   <title>凭空消失的 TA</title>
   <script src="./js/vue.min.js"></script>
   <script src="./js/http-vue-loader.js"></script>
-  <script src="./element-ui-2.15.10/index.js"></script>
   <!-- 引入 element-ui 样式 -->
   <link rel="stylesheet" href="./element-ui-2.15.10/index.css" />
 </head>

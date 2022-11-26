@@ -13,7 +13,14 @@
 ### 代码
 
 ```diff
-  <script src="./element-ui-2.15.10/index.js"></script>
+diff --git 凭空消失的TA/index.html
+@@ -8,6 +8,7 @@  <title>凭空消失的 TA</title>
+  <script src="./js/vue.min.js"></script>
+  <script src="./js/http-vue-loader.js"></script>
++  <script src="./element-ui-2.15.10/index.js"></script>
+  <!-- 引入 element-ui 样式 -->
+  <link rel="stylesheet" href="./element-ui-2.15.10/index.css" />
+</head>
 ```
 
 ## 用户名片
@@ -276,7 +283,63 @@ placeholder="词牌名 词句 词人"
 
 ### 代码
 
-见对应目录。
+```diff
+@@ -14,8 +14,12 @@
+    <h1 style="text-align: center">输入关键字，找一首词</h1>
+    <!-- TODO：待补充代码 -->
+    <div class="search-form">
+-      <input type="text" id="search" class="search" placeholder="词牌名 词句 词人" />
++      <input type="text" id="search" class="search" placeholder="词牌名 词句 词人" v-model="query" @input="handleInput" />
+      <ul class="suggestions">
++        <li v-for="poem in filtered">
++          <span class="poet" v-html="poem.poetry_content"></span>
++          <span class="title" v-html="poem.title"></span>
++        </li>
+      </ul>
+    </div>
+  </div>
+@@ -23,6 +27,40 @@
+    let vm = new Vue({
+      el: '#app',
+      // TODO：待补充代码
++      data: {
++        query: '',
++        poems: [],
++        filtered: []
++      },
++      created() {
++        this.queryData()
++      },
++      methods: {
++        highlight(text) {
++          return `<span class="highlight">${text}</span>`;
++        },
++        queryData() {
++          axios.get('./data.json').then(res => {
++            this.poems = res.data;
++          })
++        },
++        handleInput(e) {
++          if (this.query) this.filterData(this.query);
++          else this.filterData("哈哈哈没有东西!!")
++        },
++        filterData(keyword) {
++          this.filtered = this.poems.filter(
++            x => x.poetry_content.includes(keyword)
++              || x.author.includes(keyword)
++              || x.title.includes(keyword)
++          ).map(x => {
++            return {
++              poetry_content: x.poetry_content.replaceAll(keyword, this.highlight(keyword)),
++              title: `${x.title} - ${x.author}`.replaceAll(keyword, this.highlight(keyword)),
++            }
++          })
++        }
++      }
+    })
+  </script>
+</body>
+```
 
 ## 资讯接口
 
