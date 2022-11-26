@@ -17,7 +17,7 @@ diff --git 凭空消失的TA/index.html
 @@ -8,6 +8,7 @@  <title>凭空消失的 TA</title>
   <script src="./js/vue.min.js"></script>
   <script src="./js/http-vue-loader.js"></script>
-+  <script src="./element-ui-2.15.10/index.js"></script>
++ <script src="./element-ui-2.15.10/index.js"></script>
   <!-- 引入 element-ui 样式 -->
   <link rel="stylesheet" href="./element-ui-2.15.10/index.css" />
 </head>
@@ -39,9 +39,11 @@ diff --git 凭空消失的TA/index.html
 
 Credit: [@TheJackForge](https://twitter.com/thejackforge/status/1560637007742701570)
 
-In case you still do not know how to center `div`s horizontally & vertically, refer to [11 Ways to Center Div or Text in Div in CSS](https://blog.hubspot.com/website/center-div-css).
+In case you still do not know how to center `div`s horizontally & vertically, refer to [11 Ways to Center Div or Text in Div in CSS](https://blog.hubspot.com/website/center-div-css) or [CSS-水平居中、垂直居中、水平垂直居中](https://segmentfault.com/a/1190000014116655).
 
 ### 代码
+
+![demo](用户名片/center-divs.webp)
 
 ```css
 .avatar,
@@ -212,9 +214,7 @@ function mPrompt() {
 > 
 > 1.  完成数据请求（数据来源 `./data.json`）。
 > 2.  `data.json` 中的数据中英文对照如下：
-> 
 > <table><thead><tr><th align="center">英文名称</th><th align="center">中文名称</th></tr></thead><tbody><tr><td align="center">wheat</td><td align="center">小麦</td></tr><tr><td align="center">soybean</td><td align="center">大豆</td></tr><tr><td align="center">potato</td><td align="center">马铃薯</td></tr><tr><td align="center">corn</td><td align="center">玉米</td></tr></tbody></table>
-> 
 > 3.  在页面的折线图和饼形图中正确显示粮食产量数据。其中折线图为五年数据，饼图只显示 2022 年数据。
 
 ### 思路
@@ -288,13 +288,13 @@ placeholder="词牌名 词句 词人"
     <h1 style="text-align: center">输入关键字，找一首词</h1>
     <!-- TODO：待补充代码 -->
     <div class="search-form">
--      <input type="text" id="search" class="search" placeholder="词牌名 词句 词人" />
-+      <input type="text" id="search" class="search" placeholder="词牌名 词句 词人" v-model="query" @input="handleInput" />
+-     <input type="text" id="search" class="search" placeholder="词牌名 词句 词人" />
++     <input type="text" id="search" class="search" placeholder="词牌名 词句 词人" v-model="query" @input="handleInput" />
       <ul class="suggestions">
-+        <li v-for="poem in filtered">
-+          <span class="poet" v-html="poem.poetry_content"></span>
-+          <span class="title" v-html="poem.title"></span>
-+        </li>
++       <li v-for="poem in filtered">
++         <span class="poet" v-html="poem.poetry_content"></span>
++         <span class="title" v-html="poem.title"></span>
++       </li>
       </ul>
     </div>
   </div>
@@ -302,40 +302,40 @@ placeholder="词牌名 词句 词人"
     let vm = new Vue({
       el: '#app',
       // TODO：待补充代码
-+      data: {
-+        query: '',
-+        poems: [],
-+        filtered: []
-+      },
-+      created() {
-+        this.queryData()
-+      },
-+      methods: {
-+        highlight(text) {
-+          return `<span class="highlight">${text}</span>`;
-+        },
-+        queryData() {
-+          axios.get('./data.json').then(res => {
-+            this.poems = res.data;
-+          })
-+        },
-+        handleInput(e) {
-+          if (this.query) this.filterData(this.query);
-+          else this.filterData("哈哈哈没有东西!!")
-+        },
-+        filterData(keyword) {
-+          this.filtered = this.poems.filter(
-+            x => x.poetry_content.includes(keyword)
-+              || x.author.includes(keyword)
-+              || x.title.includes(keyword)
-+          ).map(x => {
-+            return {
-+              poetry_content: x.poetry_content.replaceAll(keyword, this.highlight(keyword)),
-+              title: `${x.title} - ${x.author}`.replaceAll(keyword, this.highlight(keyword)),
-+            }
-+          })
-+        }
-+      }
++     data: {
++       query: '',
++       poems: [],
++       filtered: []
++     },
++     created() {
++       this.queryData()
++     },
++     methods: {
++       highlight(text) {
++         return `<span class="highlight">${text}</span>`;
++       },
++       queryData() {
++         axios.get('./data.json').then(res => {
++           this.poems = res.data;
++         })
++       },
++       handleInput(e) {
++         if (this.query) this.filterData(this.query);
++         else this.filterData("哈哈哈没有东西!!")
++       },
++       filterData(keyword) {
++         this.filtered = this.poems.filter(
++           x => x.poetry_content.includes(keyword)
++             || x.author.includes(keyword)
++             || x.title.includes(keyword)
++         ).map(x => {
++           return {
++             poetry_content: x.poetry_content.replaceAll(keyword, this.highlight(keyword)),
++             title: `${x.title} - ${x.author}`.replaceAll(keyword, this.highlight(keyword)),
++           }
++         })
++       }
++     }
     })
   </script>
 </body>
