@@ -1,0 +1,12 @@
+{
+  "code": 200,
+  "desc": "请求成功",
+  "data": {
+    "2017": { "wheat": 431, "soybean": 142, "potato": 232, "corn": 642 },
+    "2018": { "wheat": 417, "soybean": 156, "potato": 258, "corn": 643 },
+    "2019": { "wheat": 416, "soybean": 168, "potato": 269, "corn": 650 },
+    "2020": { "wheat": 436, "soybean": 174, "potato": 277, "corn": 680 },
+    "2021": { "wheat": 441, "soybean": 186, "potato": 289, "corn": 692 },
+    "2022": { "wheat": 445, "soybean": 201, "potato": 315, "corn": 706 }
+  }
+}

@@ -1,0 +1,36 @@
+.inner-container {
+  position: relative;
+  margin: 0 auto;
+  width: 60%;
+  height: 600px;
+  padding: 60px;
+  margin-top: 100px;
+  overflow-y: scroll;
+}
+
+.icon-x {
+  width: 20px;
+  height: 20px;
+  margin-top: 10px;
+  margin-left: -10px;
+}
+
+.add {
+  overflow: hidden;
+}
+
+.addtxt {
+  float: right;
+}
+
+.historytxt {
+  line-height: 38px;
+}
+
+.bottom {
+  margin-top: 60px;
+}
+
+.checkbox-one {
+  margin-top: 60px;
+}

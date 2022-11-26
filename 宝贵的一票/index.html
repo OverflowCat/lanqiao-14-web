@@ -1,0 +1,126 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="UTF-8" />
+  <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+  <title>宝贵的一票</title>
+  <script src="./js/jquery.min.js"></script>
+  <link rel="stylesheet" href="./css/bootstrap.min.css" />
+  <link rel="stylesheet" href="./css/style.css" />
+</head>
+
+<body>
+  <div class="inner-container shadow">
+    <div class="mb-3 row">
+      <label class="col-sm-2 col-form-label">投票主题</label>
+      <div class="col-sm-9">
+        <input type="text" class="form-control" />
+      </div>
+    </div>
+    <div class="list"></div>
+    <div class="add">
+      <div class="addtxt">
+        <img src="./images/plus-square.svg" alt="加号图标" />
+        添加选项
+      </div>
+    </div>
+    <div class="form-check checkbox-one">
+      <input class="form-check-input" type="checkbox" value="" />
+      <label class="form-check-label" for="flexCheckDefault">
+        支持多选
+      </label>
+    </div>
+    <div class="form-check">
+      <input class="form-check-input" type="checkbox" value="" />
+      <label class="form-check-label" for="flexCheckDefault">
+        公开投票结果
+      </label>
+    </div>
+
+    <div class="row bottom">
+      <div class="col">
+        <a class="historytxt" href="javascript:void(0)">历史投票</a>
+      </div>
+      <div class="col"></div>
+      <div class="col">
+        <button type="button" class="btn btn-light">取消</button>
+        <button type="button" class="btn btn-primary">发起投票</button>
+      </div>
+    </div>
+  </div>
+
+  <script>
+    let initRender = (txt) => {
+      return `<div class="mb-3 row">
+                <label class="col-sm-2 col-form-label txt">${txt}</label>
+                <div class="col-sm-9">
+                    <input type="text" class="form-control">
+               </div>
+            </div>`;
+    };
+    $(
+      (function () {
+        // 初始化的时候渲染两条数据，且不带删除符号
+        for (let index = 0; index < 2; index++) {
+          let initList = initRender(`选项${index + 1}`);
+          $(".list").append(initList);
+        }
+
+        function getOptsCount() {
+          return document.querySelectorAll("label.txt").length;
+        }
+
+        // 点击加号逻辑
+        $(".add").click(function () {
+          // TODO 待补充代码
+          const cid = getOptsCount() + 1;
+          const template = `<div class="mb-3 row item">
+  <label class="col-sm-2 col-form-label txt">选项${cid}</label>
+  <div class="col-sm-9">
+    <input type="text" class="form-control" />
+  </div>
+  <div class="col-sm-1">
+    <!-- 删除图标 -->
+    <img class="del-icon" src="./images/x.svg" alt="" />
+  </div>
+</div>`;
+          const div = document.createElement("div");
+          // TODO：待补充代码
+          div.innerHTML = template;
+          document.querySelector("div.list").appendChild(div.firstElementChild);
+          if (cid === 3) {
+            document.querySelector("div.list").childNodes.forEach((ele) => {
+              const label = ele.querySelector('label');
+              if (label.innerHTML == "选项1" || label.innerHTML == "选项2") {
+                const img = `<!-- 删除图标 -->
+    <img class="del-icon" src="./images/x.svg" alt="" />`;
+                const div = document.createElement("div"); // 每个循环都需要创建一次！
+                div.innerHTML = img;
+                div.className = "col-sm-1";
+                ele.appendChild(div);
+              }
+            });
+          }
+        });
+        // 点击 x 删除逻辑，列表小于 2 项时不显示删除图标
+        $(document).on("click", ".del-icon", function (e) {
+          // TODO 待补充代码
+          e.target.parentElement.parentElement.remove();
+          let counter = 0;
+          document.querySelector("div.list").childNodes.forEach((ele) => {
+            const label = ele.querySelector('label');
+            label.innerHTML = label.innerHTML.replace(/选项[0-9]+/, `选项${++counter}`);
+          });
+          if (counter == 2) {
+            document.querySelector("div.list").childNodes.forEach((ele) => {
+              ele.querySelector('img').parentElement.remove();
+            });
+          }
+        });
+      })()
+    );
+  </script>
+</body>
+
+</html>

@@ -1,0 +1,109 @@
+<!DOCTYPE html>
+<html style="height: 100%">
+
+<head>
+  <meta charset="utf-8" />
+  <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+  <title>粒粒皆辛苦</title>
+  <script type="text/javascript" src="./js/echarts.min.js"></script>
+  <script src="./js/axios.min.js"></script>
+</head>
+
+<body style="height: 100%; margin: 0; overflow: hidden">
+  <div id="container" style="height: 80%; width: 80%; margin: 5% auto"></div>
+  <script>
+    var dom = document.getElementById("container");
+    var option;
+    var myChart = echarts.init(dom, null, {
+      renderer: "canvas",
+      useDirtyRect: false,
+    });
+    let initCharts = () => {
+      option = {
+        title: {
+          text: "近五年 x 市粮食总产量分布以及 2022 年粮食产量比例",
+          subtext: "单位（万吨）",
+        },
+        dataset: {
+          //source -> 图表显示所需的数据格式（饼形图和折线图共用），请勿手动修改此行
+          source: [
+            ["全部", "2017", "2018", "2019", "2020", "2021", "2022"],
+            ["小麦", 1, 1, 1, 1, 1, 1],
+            ["大豆", 9, 9, 9, 9, 9, 9],
+            ["马铃薯", 13, 13, 13, 13, 13, 13],
+            ["玉米", 23, 23, 23, 23, 23, 23],
+          ],
+        },
+        xAxis: { type: "category" },
+        yAxis: { gridIndex: 0 },
+        grid: { top: "55%" },
+        series: [
+          {
+            type: "line",
+            seriesLayoutBy: "row",
+          },
+          {
+            type: "line",
+            seriesLayoutBy: "row",
+          },
+          {
+            type: "line",
+            seriesLayoutBy: "row",
+          },
+          {
+            type: "line",
+            seriesLayoutBy: "row",
+          },
+          {
+            type: "pie",
+            id: "pie",
+            radius: "30%",
+            center: ["50%", "25%"],
+            label: {
+              // 2022 数据的百分比
+              formatter: "{b} {@2022} ({d}%)",
+            },
+            encode: {
+              itemName: "全部",
+              value: "2022",
+              tooltip: "2022",
+            },
+          },
+        ],
+      };
+      if (option && typeof option === "object") {
+        // myChart.setOption -> 设置 echarts 数据的方法
+        myChart.setOption(option);
+      }
+      window.addEventListener("resize", myChart.resize);
+    };
+    initCharts();
+
+    // TODO: 待补充代码
+    function refresh(obj) {
+      let arr = [
+        ["all", "全部", "2017", "2018", "2019", "2020", "2021", "2022"],
+        ["wheat", "小麦"],
+        ["soybean", "大豆"],
+        ["potato", "马铃薯"],
+        ["corn", "玉米"],
+      ];
+      const items = arr.map(x => x[0]);
+      let _d = Object.entries(obj["data"]);
+      _d.sort((a, b) => a[0] < b[0]);
+      _d.forEach(([k, v]) => {
+        Object.entries(v).forEach(([n, val]) =>
+          arr[items.indexOf(n)].push(val)
+        );
+      });
+      arr = arr.map(x => x.slice(1));
+      console.log(arr);
+      myChart.setOption({ dataset: { source: arr } })
+    }
+    axios.get("./data.json")./* then(JSON.stringify). */then(obj => {
+      refresh(obj.data);
+    });
+  </script>
+</body>
+
+</html>

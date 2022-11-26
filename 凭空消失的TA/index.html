@@ -1,0 +1,44 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="UTF-8" />
+  <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>凭空消失的 TA</title>
+  <script src="./js/vue.min.js"></script>
+  <script src="./js/http-vue-loader.js"></script>
+  <!-- 引入 element-ui 样式 -->
+  <link rel="stylesheet" href="./element-ui-2.15.10/index.css" />
+</head>
+
+<body>
+  <div id="app">
+    <myform ref="myform" :form="form"></myform>
+  </div>
+</body>
+<script type="text/javascript">
+  Vue.use(httpVueLoader);
+  var vm = new Vue({
+    components: {
+      myform: "url:./myform.vue",
+    },
+    el: "#app",
+    data: {
+      that: this,
+      test: "hello",
+      form: {
+        name: "test-name",
+        region: "啊",
+        date1: "2022/9/22",
+        date2: "15:00:00",
+        delivery: false,
+        type: [],
+        resource: "",
+        desc: "this is a test.",
+      },
+    },
+  }).$mount("#app");
+</script>
+
+</html>
